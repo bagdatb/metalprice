@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+
+  metalprice_db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+#    ports:
+#      - 3306:3306
+    expose:
+      - "3306"
+    environment:
+      MYSQL_DATABASE: metal_price_schema
+      MYSQL_ROOT_PASSWORD: example
+
+  metalprice_app:
+    depends_on:
+      - metalprice_db
+    restart: on-failure
+    build: ./
+    ports:
+      - 9095:9095
+
+#  adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - 9090:8080
